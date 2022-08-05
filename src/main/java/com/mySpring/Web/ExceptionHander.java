@@ -7,9 +7,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestControllerAdvice
 public class ExceptionHander {
@@ -28,5 +31,15 @@ public class ExceptionHander {
                 map.put(e.getField(),e.getDefaultMessage());
             });
             return ResponseFactory.getDeResponseEntility(map);
+    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntility<Map<String,String>> handerConstra(ConstraintViolationException result){
+
+        Map<String,String> map=new HashMap<>();
+        Set<ConstraintViolation<?>> errors = result.getConstraintViolations();
+        errors.forEach(e -> {
+            map.put(e.getPropertyPath().toString(),e.getMessage());
+        });
+        return ResponseFactory.getDeResponseEntility(map);
     }
 }

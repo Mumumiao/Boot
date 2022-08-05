@@ -14,14 +14,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -29,6 +33,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/Emp")
 @Transactional(rollbackFor = Exception.class)
+@Validated
 public class EmpControl {
     @Autowired
     private EmpService empService;
@@ -72,12 +77,11 @@ public class EmpControl {
     }
 
     @PostMapping("page")
-    public ResponseEntility part(@RequestBody Emp emp) {
-        System.out.println("输出页数" + emp.getNum());
+    public ResponseEntility part(@Min(value = 1, message = "不能小于1亲亲") int p) {
+        System.out.println("输出页数" + p);
         PageBean<Emp> pageBean = new PageBean<>();
         QueryWrapper<Emp> wrapper = new QueryWrapper<>();
-        wrapper.gt("id", emp.getId());
-        IPage<Emp> page = new Page<>(emp.getNum(), 4);
+        IPage<Emp> page = new Page<>(p, 4);
         IPage<Emp> fpage = empService.page(page, wrapper);
         pageBean.setData(fpage.getRecords());
         pageBean.setCurrPage((int) fpage.getCurrent());
@@ -88,12 +92,51 @@ public class EmpControl {
     }
 
     @PostMapping("import")
-    public ResponseEntility<String> importEmp() {
-        String fileName = "C://Users/ASUS/Desktop/新项目/"+ "test.xls";
-        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
-        EasyExcel.read(fileName, Emp.class, new ImportEmpListen(empService)).sheet().doRead();
-       return  null;
+    public ResponseEntility<String> importEmp(MultipartFile file) {
+        System.out.println("文件名是" + file.getOriginalFilename());
+        String path = picture + file.getOriginalFilename();
+        try {
+            file.transferTo(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        EasyExcel.read(path, Emp.class, new ImportEmpListen(empService)).sheet().doRead();
+        return ResponseFactory.getSuResponseEntility("导入成功");
     }
 
-
+    @PostMapping("export")
+    public ResponseEntility<String> exportEmp(@RequestBody Empvo empvo) {
+        Dept dept = new Dept();
+        dept.setId(empvo.getDt());
+        empvo.getEmp().setDept(dept);
+       List<Emp> emps= empService.getBycon(empvo.getEmp(), empvo.getPage(), empvo.getSize()).getData();
+       List<Emp> empf=new ArrayList<>();
+       emps.forEach(i->{
+           Emp emp=new Emp();
+           emp.setName(i.getName());
+           emp.setGender(i.getGender());
+           emp.setPhoto(i.getPhoto());
+           emp.setEntry_date(i.getEntry_date());
+           emp.setSalary(i.getSalary());
+           emp.setId(i.getId());
+           emp.setDt(i.getDept().getId());
+           empf.add(emp);
+       });
+        emps.forEach(i->{
+            System.out.println(i.getName());
+        });
+        String filepath=picture + "emp.xlsx";
+        File file = new File(filepath);
+        System.out.println("文件路径为"+filepath);
+        if (!file.exists()) {
+            try {
+                System.out.println("文件不存在重新创建");
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        EasyExcel.write(filepath, Emp.class).sheet("员工表").doWrite(empf);
+        return ResponseFactory.getSuResponseEntility("导出成功");
+    }
 }
