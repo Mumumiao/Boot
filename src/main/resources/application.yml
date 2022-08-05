@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/boot?serverTimezone=UTC
+    username: root
+    password: 1234s4321
+    application:
+      name: m
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+  pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/,file:${m.picture}
+server:
+  port: 8080
+  servlet:
+    context-path: /MyBoot
+debug: false
+logging:
+  level:
+    com.mySpring: debug
+m:
+  picture: C://Users/ASUS/Desktop/新项目/
+
+mybatis:
+  mapper-locations: classpath:mapper/com.myBoot.Mapper.RoleMapper.xml,com.myBoot.Mapper.Emp.Mapper.xml
