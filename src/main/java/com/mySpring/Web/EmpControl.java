@@ -25,7 +25,9 @@ import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -47,6 +49,14 @@ public class EmpControl {
         emp.setDept(dept);
         empService.save(emp);
         return ResponseFactory.getSuResponseEntility("成功插入");
+    }
+    @PostMapping("/up")
+    public ResponseEntility up(@RequestBody Emp emp) {
+        Dept dept = new Dept();
+        dept.setId(emp.getDt());
+        emp.setDept(dept);
+        empService.up(emp);
+        return ResponseFactory.getSuResponseEntility("成功更新"+emp.getId());
     }
 
     @PostMapping("/sele")
@@ -136,7 +146,10 @@ public class EmpControl {
                 e.printStackTrace();
             }
         }
-        EasyExcel.write(filepath, Emp.class).sheet("员工表").doWrite(empf);
+        Set<String> excludeColumnFiledNames = new HashSet<String>();
+        excludeColumnFiledNames.add("dept");
+        excludeColumnFiledNames.add("num");
+        EasyExcel.write(filepath, Emp.class).excludeColumnFieldNames(excludeColumnFiledNames).sheet("员工表").doWrite(empf);
         return ResponseFactory.getSuResponseEntility("导出成功");
     }
 }

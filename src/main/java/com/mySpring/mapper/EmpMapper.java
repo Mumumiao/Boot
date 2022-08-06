@@ -19,6 +19,7 @@ public interface EmpMapper extends BaseMapper<Emp> {
             @Result(column = "dept_id",property = "dept.id")
     })
     List<Emp> seleByCon(Emp emp);
+    @UpdateProvider(type = EmpSqlProvide.class,method = "update")
     void up(Emp emp);
 
 }

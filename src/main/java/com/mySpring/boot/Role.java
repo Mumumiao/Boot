@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
@@ -12,6 +13,7 @@ public class Role {
     @Min(value=1,message = "id不能为空",groups =AddGroup.class)
     private int id;
     private  String scripe;
+    @NotBlank(message = "角色名字不能为空",groups = AddGroup.class)
     private  String name;
     private  String status;
     private List<Urc> urc;

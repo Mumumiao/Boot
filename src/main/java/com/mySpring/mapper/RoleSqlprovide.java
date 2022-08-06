@@ -27,9 +27,9 @@ public class RoleSqlprovide  {
                 if(status!=null){
                 SET("status=#{status}");
             }
-                if(id!=0){
+
                     WHERE("id=#{id}");
-                }
+
          }
 
         }.toString();

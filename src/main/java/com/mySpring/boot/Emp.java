@@ -9,6 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Setter
@@ -18,9 +23,11 @@ import java.math.BigDecimal;
 public class Emp {
     @TableId(type = IdType.AUTO)
     @ExcelProperty("id")
+    @Min(value=1,message = "id不能为空",groups =AddGroup.class)
     private int id;
     @TableField("name")
     @ExcelProperty("name")
+    @NotBlank(message = "员工名字不能为空",groups = AddGroup.class)
     private  String name;
     @TableField("gender")
     @ExcelProperty("gender")
@@ -33,11 +40,15 @@ public class Emp {
     private String entry_date;
     @TableField("salary")
     @ExcelProperty("salary")
+    @DecimalMin("0")
     private BigDecimal salary;
     @TableField(value = "dept_id",property ="dt")
+    @NotNull(message = "部门不能为空",groups = AddGroup.class)
+    @Valid
     private Dept dept;
     @TableField(exist = false)
     @ExcelProperty("dt")
+    @NotNull
     private int dt;
     @TableField(exist = false)
     private  int num;
