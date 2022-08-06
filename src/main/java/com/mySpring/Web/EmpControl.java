@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mySpring.boot.*;
+import com.mySpring.service.DeptService;
 import com.mySpring.service.EmpService;
 import com.mySpring.service.imple.ImportEmpListen;
 import com.mySpring.vo.Empvo;
@@ -39,6 +40,8 @@ import java.util.Set;
 @Validated
 public class EmpControl {
     @Autowired
+    private DeptService deptService;
+    @Autowired
     private EmpService empService;
     @Value("${m.picture}")
     private String picture;
@@ -51,13 +54,14 @@ public class EmpControl {
         empService.save(emp);
         return ResponseFactory.getSuResponseEntility("成功插入");
     }
+
     @PostMapping("/up")
-    public ResponseEntility up(@RequestBody @Valid  Emp emp) {
+    public ResponseEntility up(@RequestBody @Valid Emp emp) {
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);
         empService.up(emp);
-        return ResponseFactory.getSuResponseEntility("成功更新"+emp.getId());
+        return ResponseFactory.getSuResponseEntility("成功更新" + emp.getId());
     }
 
     @PostMapping("/sele")
@@ -69,7 +73,7 @@ public class EmpControl {
     }
 
     @PostMapping("/pic")
-    public ResponseEntility part(MultipartFile file, @Min(value = 1,message = "id不能为空") int id) {
+    public ResponseEntility part(MultipartFile file, @Min(value = 1, message = "id不能为空") int id) {
         String path = picture + file.getOriginalFilename();
         Emp emp = new Emp();
         emp.setId(id);
@@ -120,25 +124,25 @@ public class EmpControl {
         Dept dept = new Dept();
         dept.setId(empvo.getDt());
         empvo.getEmp().setDept(dept);
-       List<Emp> emps= empService.getBycon(empvo.getEmp(), empvo.getPage(), empvo.getSize()).getData();
-       List<Emp> empf=new ArrayList<>();
-       emps.forEach(i->{
-           Emp emp=new Emp();
-           emp.setName(i.getName());
-           emp.setGender(i.getGender());
-           emp.setPhoto(i.getPhoto());
-           emp.setEntry_date(i.getEntry_date());
-           emp.setSalary(i.getSalary());
-           emp.setId(i.getId());
-           emp.setDt(i.getDept().getId());
-           empf.add(emp);
-       });
-        emps.forEach(i->{
+        List<Emp> emps = empService.getBycon(empvo.getEmp(), empvo.getPage(), empvo.getSize()).getData();
+        List<Emp> empf = new ArrayList<>();
+        emps.forEach(i -> {
+            Emp emp = new Emp();
+            emp.setName(i.getName());
+            emp.setGender(i.getGender());
+            emp.setPhoto(i.getPhoto());
+            emp.setEntry_date(i.getEntry_date());
+            emp.setSalary(i.getSalary());
+            emp.setId(i.getId());
+            emp.setDt(i.getDept().getId());
+            empf.add(emp);
+        });
+        emps.forEach(i -> {
             System.out.println(i.getName());
         });
-        String filepath=picture + "emp.xlsx";
+        String filepath = picture + "emp.xlsx";
         File file = new File(filepath);
-        System.out.println("文件路径为"+filepath);
+        System.out.println("文件路径为" + filepath);
         if (!file.exists()) {
             try {
                 System.out.println("文件不存在重新创建");
@@ -152,5 +156,16 @@ public class EmpControl {
         excludeColumnFiledNames.add("num");
         EasyExcel.write(filepath, Emp.class).excludeColumnFieldNames(excludeColumnFiledNames).sheet("员工表").doWrite(empf);
         return ResponseFactory.getSuResponseEntility("导出成功");
+    }
+
+    @PostMapping("/stats")
+    public ResponseEntility<List<Dept>> getStats() {
+        List<Dept> depts = deptService.list();
+        depts.forEach(i -> {
+            i.setEmps(empService.getByDp(i.getId()));
+            i.setNum(i.getEmps().size());
+        });
+        return ResponseFactory.getSuResponseEntility(depts);
+
     }
 }

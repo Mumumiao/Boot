@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Setter
 @Getter
@@ -20,5 +21,9 @@ public class Dept {
   @TableField("name")
   @NotBlank(message = "部门名字不能为空",groups = AddGroup.class)
   private String name;
+  @TableField(exist = false)
+  private int num;
+  @TableField(exist = false)
+  private List<Emp> emps;
 
 }

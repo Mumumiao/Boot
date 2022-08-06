@@ -3,6 +3,7 @@ package com.mySpring.service.imple;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.mySpring.boot.Dept;
 import com.mySpring.boot.Emp;
 import com.mySpring.boot.PageBean;
 import com.mySpring.mapper.EmpMapper;
@@ -16,11 +17,12 @@ import java.util.List;
 public class EmpServiceImp extends ServiceImpl<EmpMapper, Emp> implements EmpService {
     @Autowired
     private EmpMapper empMapper;
+
     @Override
-    public PageBean<Emp> getBycon(Emp emp,int page,int size){
-        PageBean<Emp> pageBean=new PageBean<>();
+    public PageBean<Emp> getBycon(Emp emp, int page, int size) {
+        PageBean<Emp> pageBean = new PageBean<>();
         Page<Object> p = PageHelper.startPage(page, size);
-        List<Emp> emps=empMapper.seleByCon(emp);
+        List<Emp> emps = empMapper.seleByCon(emp);
         pageBean.setData(emps);
         pageBean.setCurrPage(page);
         pageBean.setPageSize(emps.size());
@@ -28,10 +30,20 @@ public class EmpServiceImp extends ServiceImpl<EmpMapper, Emp> implements EmpSer
         pageBean.setTotalNums((int) p.getTotal());
         return pageBean;
     }
-    @Override
-    public  void up(Emp emp){
-        empMapper.up(emp);
- }
 
+    @Override
+    public void up(Emp emp) {
+        empMapper.up(emp);
+    }
+
+    @Override
+    public List<Emp> getByDp(int id) {
+        Emp emp=new Emp();
+        Dept dept=new Dept();
+        dept.setId(id);
+        emp.setDept(dept);
+       return empMapper.seleByCon(emp);
+
+    }
 
 }
