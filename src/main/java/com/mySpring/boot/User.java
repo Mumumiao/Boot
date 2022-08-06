@@ -3,7 +3,6 @@ package com.mySpring.boot;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,7 +18,6 @@ public class User {
     private  String account;
     private  String password;
     @NotNull(message = "角色不能为空",groups = AddGroup.class)
-    @Valid
     private Role role;
     private String status;
 }
