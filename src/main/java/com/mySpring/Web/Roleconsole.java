@@ -1,7 +1,10 @@
 package com.mySpring.Web;
 
 
-import com.mySpring.boot.*;
+import com.mySpring.boot.PageBean;
+import com.mySpring.boot.ResponseEntility;
+import com.mySpring.boot.ResponseFactory;
+import com.mySpring.boot.Role;
 import com.mySpring.service.MenuSeverce;
 import com.mySpring.service.RoleSeverce;
 import lombok.extern.slf4j.Slf4j;
@@ -9,18 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @Slf4j
 @Transactional(rollbackFor =Exception.class)
+@Validated
 public class Roleconsole {
     @Autowired
     private RoleSeverce roleSeverce;
@@ -30,7 +36,7 @@ public class Roleconsole {
     private int tempage;
 
 
-    @RequestMapping("/rolei")
+ /*   @RequestMapping("/rolei")
     public String role(String name, Model model, HttpSession session) {
         if ("角色新增".equals(name)) {
             return "role_add";
@@ -48,12 +54,12 @@ public class Roleconsole {
             return "role_list";
         }
         return "index";
-    }
+    }*/
 
 
     @RequestMapping("/role/add")
     @ResponseBody
-    public ResponseEntility<String> roleadd(Role role, int[] mid, int[] uid) {
+    public ResponseEntility<String> roleadd(@Valid Role role, @NotEmpty(message = "菜单不能为空") int[] mid, @NotEmpty(message = "权利不能为空") int[] uid) {
         ArrayList<Integer> midarr = new ArrayList<>();
         ArrayList<Integer> uidarr = new ArrayList<>();
         role.setStatus("可见");
@@ -74,7 +80,7 @@ public class Roleconsole {
         return ResponseFactory.getSuResponseEntility("添加的角色的id为"+role.getId());
     }
 
-    @RequestMapping("/role/dele")
+ /*   @RequestMapping("/role/dele")
     public String roledele(int id, Model model, int page) {
         roleSeverce.dele(id);
         Role role = new Role();
@@ -83,11 +89,11 @@ public class Roleconsole {
         model.addAttribute("page", pagebean);
         model.addAttribute("role", roles);
         return "role_list";
-    }
+    }*/
 
     @RequestMapping("/rolepage")
     @ResponseBody
-    public ResponseEntility<PageBean<Role>> rolepage(int page) {
+    public ResponseEntility<PageBean<Role>> rolepage(@Min(value = 1,message = "页码不能为空") int page) {
         Role role = new Role();
         PageBean<Role> pagebean = roleSeverce.getByPage(role, page, 3);
         System.out.println("总页数是" + pagebean.getTotalPages());
@@ -109,6 +115,7 @@ public class Roleconsole {
         model.addAttribute("role", roles);
         return "role_up";
     }*/
+/*
     @RequestMapping("/role/toup/{id}/{page}")
     public String toroleUp(@PathVariable("id") int id, Model model, @PathVariable("page") int page) {
         roleid = id;
@@ -127,10 +134,11 @@ public class Roleconsole {
     public List<Menu> roleUpGetall() {
         return menuSeverce.getAll();
     }
+*/
 
     @RequestMapping("/role/up")
     @ResponseBody
-    public ResponseEntility<String> roleup(Role role, Model model,int[] mid,int[] uid) {
+    public ResponseEntility<String> roleup(@Valid Role role, Model model,int[] mid,int[] uid) {
         ArrayList<Integer> midarr = new ArrayList<>();
         ArrayList<Integer> uidarr = new ArrayList<>();
         if (mid != null) {

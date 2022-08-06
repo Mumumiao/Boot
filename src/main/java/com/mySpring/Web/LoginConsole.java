@@ -52,9 +52,4 @@ public class LoginConsole {
 
     }
 
-    @PostMapping ("/tologin")
-    @ResponseBody
-    public String tologin() {
-        return "login";
-    }
 }

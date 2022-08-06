@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @TableName("oa_dept")
 public class Dept {
   @TableId(type = IdType.AUTO)
-  @Min(value=1,message = "id不能为空",groups =AddGroup.class)
+  @Min(value=1,message = "id不能为空")
   private int id;
   @TableField("name")
   @NotBlank(message = "部门名字不能为空",groups = AddGroup.class)

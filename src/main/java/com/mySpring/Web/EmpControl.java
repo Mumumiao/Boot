@@ -44,7 +44,7 @@ public class EmpControl {
     private String picture;
 
     @PostMapping("/add")
-    public ResponseEntility add(@RequestBody Emp emp) {
+    public ResponseEntility add(@RequestBody @Valid Emp emp) {
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);
@@ -52,7 +52,7 @@ public class EmpControl {
         return ResponseFactory.getSuResponseEntility("成功插入");
     }
     @PostMapping("/up")
-    public ResponseEntility up(@RequestBody Emp emp) {
+    public ResponseEntility up(@RequestBody @Validated(AddGroup.class)  Emp emp) {
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);
@@ -61,7 +61,7 @@ public class EmpControl {
     }
 
     @PostMapping("/sele")
-    public ResponseEntility sele(@RequestBody Empvo empvo) {
+    public ResponseEntility sele(@RequestBody @Valid Empvo empvo) {
         Dept dept = new Dept();
         dept.setId(empvo.getDt());
         empvo.getEmp().setDept(dept);
@@ -69,7 +69,7 @@ public class EmpControl {
     }
 
     @PostMapping("/pic")
-    public ResponseEntility part(MultipartFile file, int id) {
+    public ResponseEntility part(MultipartFile file, @Min(value = 1,message = "id不能为空") int id) {
         String path = picture + file.getOriginalFilename();
         Emp emp = new Emp();
         emp.setId(id);

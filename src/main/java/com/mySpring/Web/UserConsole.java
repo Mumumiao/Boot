@@ -1,6 +1,5 @@
 package com.mySpring.Web;
 
-import com.mySpring.boot.AddGroup;
 import com.mySpring.boot.ResponseEntility;
 import com.mySpring.boot.ResponseFactory;
 import com.mySpring.boot.User;
@@ -8,12 +7,12 @@ import com.mySpring.service.UserSeverce;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/user")
@@ -24,7 +23,7 @@ public class UserConsole {
     @Autowired
     private UserSeverce userSeverce;
     @PostMapping("/add")
-    public ResponseEntility<String> add(@RequestBody @Validated(AddGroup.class) User user){
+    public ResponseEntility<String> add(@RequestBody @Valid User user){
      /*   if(result.hasFieldErrors()){
             Map<String,String> map=new HashMap<>();
             List<FieldError> errors = result.getFieldErrors();

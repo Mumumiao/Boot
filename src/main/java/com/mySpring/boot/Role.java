@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Role {
-    @Min(value=1,message = "id不能为空",groups =AddGroup.class)
+    @Min(value=1,message = "id不能为空")
     private int id;
     private  String scripe;
     @NotBlank(message = "角色名字不能为空",groups = AddGroup.class)
