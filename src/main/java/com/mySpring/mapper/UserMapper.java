@@ -12,8 +12,8 @@ public interface UserMapper extends BaseMapper<UserMapper> {
     @InsertProvider(type =UserSqlprovide.class, method = "addSql")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void add(User user);
-
-    List<User> seleByCon(User user);
+    @Select("select * from user")
+    List<User> seleAll();
 
     /* @Select("select * ,u.id ud ,r.id rd from user u,role r where u.role=r.id and u.id=#{id}")
      @Results({

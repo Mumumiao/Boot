@@ -14,7 +14,7 @@ public interface RoleSeverce {
     public List<Role> getByCon(Role role);
     public  void dele(int i);
     public PageBean<Role> getByPage(Role role, int page, int pagesize);
-    public void update(Role role, ArrayList<Integer> menu_id);
+    public void update(Role role, ArrayList<Integer> menu_id,ArrayList<Integer> right_id);
     public List<Menu> getMenu(int id);
     public List<Userright> getRight(int id);
 }

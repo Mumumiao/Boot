@@ -11,4 +11,5 @@ public interface UserSeverce {
     public User login(String account, String password);
     public List<Menu> getMenu(int id);
     public void Add(User user);
+    public List<User> seleAll();
 }

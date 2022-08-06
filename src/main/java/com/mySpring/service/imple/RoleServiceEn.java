@@ -79,8 +79,12 @@ public class RoleServiceEn implements RoleSeverce {
     }
 
     @Override
-    public void update(Role role, ArrayList<Integer> menu_id) {
+    public void update(Role role, ArrayList<Integer> menu_id,ArrayList<Integer> right_id) {
         mrcMapper.deleByRole(role.getId());
+        urcMapper.deleByRole(role);
+        Userright userright=new Userright();
+        Urc urc = new Urc();
+        urc.setRole(role);
         Menu menu = new Menu();
         Mrc mrc = new Mrc();
         mrc.setRole(role);
@@ -89,7 +93,11 @@ public class RoleServiceEn implements RoleSeverce {
             mrc.setMenu(menu);
             mrcMapper.add(mrc);
         });
-
+        right_id.forEach(i -> {
+            userright.setId(i);
+            urc.setUserright(userright);
+            urcMapper.add(urc);
+        });
         roleMapper.update(role);
     }
 

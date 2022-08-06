@@ -27,7 +27,9 @@ public class RoleSqlprovide  {
                 if(status!=null){
                 SET("status=#{status}");
             }
-                WHERE("id=#{id}");
+                if(id!=0){
+                    WHERE("id=#{id}");
+                }
          }
 
         }.toString();
@@ -44,19 +46,15 @@ public class RoleSqlprovide  {
                 if(scripe!=null){
                    WHERE("scripe=#{scripe}");
                 }
-                AND();
                 if(name!=null){
                     WHERE("name=#{name}");
                 }
-                AND();
                 if(status!=null){
                     WHERE("status=#{status}");
                 }
-                AND();
                 if(id!=0){
                     WHERE("id=#{id}");
                 }
-                AND();
                 WHERE("status='可见'");
             }
 

@@ -2,6 +2,7 @@ package com.mySpring.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mySpring.boot.Role;
 import com.mySpring.boot.Urc;
 import com.mySpring.boot.Userright;
 import org.apache.ibatis.annotations.*;
@@ -21,4 +22,6 @@ public interface UrcMapper extends BaseMapper<Urc> {
             @Result(column = "url",property = "url")
     })
     List<Userright> seleRightById(int id);
+    @Delete("delete from urc where role_id=#{id}")
+    void deleByRole(Role role);
 }

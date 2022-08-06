@@ -39,4 +39,8 @@ public class UserSeverceEn implements UserSeverce {
     public void Add(User user) {
         userMapper.add(user);
     }
+    @Override
+    public List<User> seleAll(){
+       return userMapper.seleAll();
+    }
 }

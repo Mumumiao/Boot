@@ -129,23 +129,24 @@ public class Roleconsole {
     }
 
     @RequestMapping("/role/up")
-    public String roleup(Role role, Model model,int[] mid) {
+    @ResponseBody
+    public ResponseEntility<String> roleup(Role role, Model model,int[] mid,int[] uid) {
         ArrayList<Integer> midarr = new ArrayList<>();
+        ArrayList<Integer> uidarr = new ArrayList<>();
         if (mid != null) {
             for (int i : mid) {
                 System.out.println("m" + i);
                 midarr.add(i);
             }
         }
-        role.setId(roleid);
-        roleSeverce.update(role,midarr);
-        Role role1 = new Role();
-        PageBean<Role> pagebean = roleSeverce.getByPage(role1, tempage, 3);
-        System.out.println("总页数是" + pagebean.getTotalPages());
-        List<Role> roles = pagebean.getData();
-        model.addAttribute("page", pagebean);
-        model.addAttribute("role", roles);
-        return "role_list";
+        if (uid != null) {
+            for (int i : uid) {
+                System.out.println("u" + i);
+                uidarr.add(i);
+            }
+        }
+        roleSeverce.update(role,midarr,uidarr);
+        return ResponseFactory.getSuResponseEntility("修改的角色名字为"+role.getName());
     }
  /*   @RequestMapping(value = "/rolelist")
     public void rolelist(HttpSession session, HttpServletResponse response) throws IOException {
