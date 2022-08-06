@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
@@ -115,7 +116,7 @@ public class EmpControl {
     }
 
     @PostMapping("export")
-    public ResponseEntility<String> exportEmp(@RequestBody Empvo empvo) {
+    public ResponseEntility<String> exportEmp(@RequestBody @Valid Empvo empvo) {
         Dept dept = new Dept();
         dept.setId(empvo.getDt());
         empvo.getEmp().setDept(dept);
