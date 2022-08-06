@@ -44,7 +44,7 @@ public class EmpControl {
     private String picture;
 
     @PostMapping("/add")
-    public ResponseEntility add(@RequestBody @Valid Emp emp) {
+    public ResponseEntility add(@RequestBody @Validated(AddGroup.class) Emp emp) {
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);
@@ -52,7 +52,7 @@ public class EmpControl {
         return ResponseFactory.getSuResponseEntility("成功插入");
     }
     @PostMapping("/up")
-    public ResponseEntility up(@RequestBody @Validated(AddGroup.class)  Emp emp) {
+    public ResponseEntility up(@RequestBody @Valid  Emp emp) {
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);

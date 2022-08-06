@@ -1,10 +1,7 @@
 package com.mySpring.Web;
 
 
-import com.mySpring.boot.PageBean;
-import com.mySpring.boot.ResponseEntility;
-import com.mySpring.boot.ResponseFactory;
-import com.mySpring.boot.Role;
+import com.mySpring.boot.*;
 import com.mySpring.service.MenuSeverce;
 import com.mySpring.service.RoleSeverce;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +56,7 @@ public class Roleconsole {
 
     @RequestMapping("/role/add")
     @ResponseBody
-    public ResponseEntility<String> roleadd(@Valid Role role, @NotEmpty(message = "菜单不能为空") int[] mid, @NotEmpty(message = "权利不能为空") int[] uid) {
+    public ResponseEntility<String> roleadd(@Validated(AddGroup.class) Role role, @NotEmpty(message = "菜单不能为空") int[] mid, @NotEmpty(message = "权利不能为空") int[] uid) {
         ArrayList<Integer> midarr = new ArrayList<>();
         ArrayList<Integer> uidarr = new ArrayList<>();
         role.setStatus("可见");

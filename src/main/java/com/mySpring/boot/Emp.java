@@ -44,7 +44,7 @@ public class Emp {
     private Dept dept;
     @TableField(exist = false)
     @ExcelProperty("dt")
-    @Min(value=1,message = "部门不能为空",groups = AddGroup.class)
+    @Min(value=1,message = "部门不能为空")
     private int dt;
     @TableField(exist = false)
     private  int num;

@@ -34,12 +34,12 @@ public class DeptControl {
         return ResponseFactory.getSuResponseEntility(list);
     }
     @PostMapping("/add")
-    public ResponseEntility<String> add(@RequestBody @Valid Dept dept) {
+    public ResponseEntility<String> add(@RequestBody @Validated(AddGroup.class)  Dept dept) {
        deptService.save(dept);
         return ResponseFactory.getSuResponseEntility("添加的部门的id为"+dept.getId());
     }
     @PostMapping("/up")
-    public ResponseEntility<String> up(@RequestBody @Validated(AddGroup.class) Dept dept) {
+    public ResponseEntility<String> up(@RequestBody @Valid Dept dept) {
         QueryWrapper<Dept> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("id",dept.getId());
         deptService.update(dept,queryWrapper);
