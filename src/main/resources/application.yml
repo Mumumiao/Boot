@@ -6,6 +6,12 @@ spring:
     password: 1234s4321
     application:
       name: m
+    devtools:
+      restart:
+        enabled: true  #设置开启热部署
+        additional-paths: src/main/java #重启目录
+      freemarker:
+        cache: false
   servlet:
     multipart:
       max-file-size: 1GB
@@ -28,6 +34,8 @@ logging:
     com.mySpring: debug
 m:
   picture: C://Users/ASUS/Desktop/新项目/
+
+
 
 mybatis:
   mapper-locations: classpath:mapper/com.myBoot.Mapper.RoleMapper.xml,com.myBoot.Mapper.Emp.Mapper.xml

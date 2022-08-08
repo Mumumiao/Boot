@@ -29,7 +29,7 @@ public interface UserMapper extends BaseMapper<UserMapper> {
             @Result(column = "ud", property = "id"),
             @Result(column = "account", property = "account"),
             @Result(column = "password", property = "password"),
-            @Result(column = "role", property = "role", one = @One(select = "com.woniu.mapper.RoleMapper.getById", fetchType = FetchType.LAZY)),
+            @Result(column = "role", property = "role", one = @One(select = "com.mySpring.mapper.RoleMapper.getById", fetchType = FetchType.LAZY)),
     })
     User getById(int id);
 
@@ -39,6 +39,12 @@ public interface UserMapper extends BaseMapper<UserMapper> {
     @Delete("delete from user where id=#{id}")
     void dele(int id);
     @Select("select * from user where account=#{account} and password=#{password}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "account", property = "account"),
+            @Result(column = "password", property = "password"),
+            @Result(column = "role", property = "role.id"),
+    })
     User getByap(@Param("account") String account,@Param("password")String password);
 
 

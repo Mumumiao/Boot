@@ -7,11 +7,7 @@ import com.mySpring.service.UserSeverce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping ("/user")
 @Transactional(rollbackFor =Exception.class)
@@ -35,18 +31,16 @@ public class LoginConsole {
 
 
     }*/
-    @CrossOrigin
+
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntility<String> login(@RequestBody  User u, HttpSession session, Model model) {
+    public ResponseEntility login(@RequestBody  User u) {
 
         User user = userSeverce.login(u.getAccount(), u.getPassword());
         if(user==null){
-            model.addAttribute("msg","密码或账号错误");
             return ResponseFactory.getDeResponseEntility("密码或账号错误");
         }else{
-            session.setAttribute("user",user);
-            return ResponseFactory.getSuResponseEntility("登陆成功");
+            return ResponseFactory.getSuResponseEntility(user);
         }
 
 

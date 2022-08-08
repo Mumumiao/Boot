@@ -32,14 +32,14 @@ public interface RoleMapper extends BaseMapper<Role> {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "name", property = "name"),
-            @Result(column = "id", property = "userrights", many = @Many(select = "com.woniu.mapper.UrcMapper.seleRightById"))
+            @Result(column = "id", property = "userrights", many = @Many(select = "com.mySpring.mapper.UrcMapper.seleRightById"))
     })
     Role getRightById(int id);
     @Select("select * from role where id=#{id}")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "name", property = "name"),
-            @Result(column = "id", property = "menus", many = @Many(select = "com.woniu.mapper.MrcMapper.seleMenuById"))
+            @Result(column = "id", property = "menus", many = @Many(select = "com.mySpring.mapper.MrcMapper.seleMenuById"))
     })
     Role getMenuById(int id);
 }

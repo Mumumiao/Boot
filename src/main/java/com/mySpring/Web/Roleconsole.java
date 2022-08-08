@@ -77,7 +77,7 @@ public class Roleconsole {
         return ResponseFactory.getSuResponseEntility("添加的角色的id为"+role.getId());
     }
 
- /*   @RequestMapping("/role/dele")
+/* @RequestMapping("/role/dele")
     public String roledele(int id, Model model, int page) {
         roleSeverce.dele(id);
         Role role = new Role();
@@ -99,7 +99,7 @@ public class Roleconsole {
     }
     @RequestMapping("/role/selecon")
     @ResponseBody
-    public ResponseEntility<List<Role>> getByCon(@RequestBody  Role role){
+    public ResponseEntility<List<Role>> getByCon(@RequestBody Role role){
         return   ResponseFactory.getSuResponseEntility(roleSeverce.getByCon(role));
     }
     /*@RequestMapping("/toroleup/{id}/{page}")

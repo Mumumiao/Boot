@@ -2,18 +2,21 @@ package com.mySpring.Web;
 
 
 import com.mySpring.boot.Menu;
+import com.mySpring.boot.ResponseEntility;
+import com.mySpring.boot.ResponseFactory;
 import com.mySpring.boot.User;
 import com.mySpring.service.UserSeverce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin
 @Controller
 @Transactional(rollbackFor =Exception.class)
 public class IndexConsole {
@@ -21,8 +24,8 @@ public class IndexConsole {
     private UserSeverce userSeverce;
 
     @RequestMapping("/index")
-    public String index(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    @ResponseBody
+    public ResponseEntility index(@RequestBody User user) {
         List<Menu> menus = userSeverce.getMenu(user.getId());
         List<Menu> famenu = new ArrayList<>();
         menus.forEach(i -> {
@@ -39,7 +42,6 @@ public class IndexConsole {
                 });
             }
      });
-        model.addAttribute("famenu", famenu);
-        return "index";
+        return ResponseFactory.getSuResponseEntility(famenu);
     }
 }

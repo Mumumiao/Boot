@@ -4,11 +4,9 @@ import com.mySpring.boot.Dept;
 import com.mySpring.boot.Emp;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
 @Scope("singleton")
 public class EmpSqlProvide {
     public String seleS(Emp emp) {
