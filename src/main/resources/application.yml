@@ -6,6 +6,7 @@ spring:
     password: 1234s4321
     application:
       name: m
+
     devtools:
       restart:
         enabled: true  #设置开启热部署
@@ -34,7 +35,9 @@ logging:
     com.mySpring: debug
 m:
   picture: C://Users/ASUS/Desktop/新项目/
-
+jwt:
+  secret: 2571453646@
+  time: 30
 
 
 mybatis:
