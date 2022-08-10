@@ -168,4 +168,9 @@ public class EmpControl {
         return ResponseFactory.getSuResponseEntility(depts);
 
     }
+    @PostMapping("list")
+    public ResponseEntility list(Emp emp) {
+
+        return ResponseFactory.getSuResponseEntility(empService.getByc(emp));
+    }
 }

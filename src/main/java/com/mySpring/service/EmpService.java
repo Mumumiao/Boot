@@ -10,4 +10,5 @@ public interface EmpService extends IService<Emp> {
     public PageBean<Emp> getBycon(Emp emp, int page, int size);
     public  void up(Emp emp);
     public List<Emp> getByDp(int id);
+    public List<Emp> getByc(Emp emp);
 }

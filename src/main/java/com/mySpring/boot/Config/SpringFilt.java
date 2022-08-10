@@ -21,6 +21,10 @@ public class SpringFilt implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
         response.setHeader("Access-Control-Expose-Headers", "jwt");
+        if ("OPTIONS".equals(request.getMethod())) {
+            response.setStatus(200);
+            return;
+        }
         chain.doFilter(request,response);
 
     }

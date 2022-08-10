@@ -32,7 +32,9 @@ public class IndexConsole {
         if(jwtutil.verifyJWT(jwt)){
             JWT jwtf = JWTUtil.parseToken(jwt);
             id= (int) jwtf.getPayload("id");
-    };
+    }else {
+            return ResponseFactory.getDeResponseEntility("令牌无效");
+        }
         System.out.println("获取到的jwtid为"+id);
         List<Menu> menus = userSeverce.getMenu(id);
         List<Menu> famenu = new ArrayList<>();

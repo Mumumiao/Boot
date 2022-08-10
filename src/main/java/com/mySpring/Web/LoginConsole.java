@@ -51,7 +51,7 @@ public class LoginConsole {
             JWT jwt = JWTUtil.parseToken(jwtutil.createJwt(user.getRole().getId(),user.getId()));
             System.out.println("创建的jwt中存的id为"+jwt.getPayload("id"));
             System.out.println("创建的jwt中存的roleid为"+jwt.getPayload("roleid"));
-            response.setHeader("jwt",jwtutil.createJwt(user.getRole().getId(),user.getId()));
+            response.addHeader("jwt",jwtutil.createJwt(user.getRole().getId(),user.getId()));
             return ResponseFactory.getSuResponseEntility(user);
         }
 

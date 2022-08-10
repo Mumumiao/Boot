@@ -30,6 +30,14 @@ public class EmpServiceImp extends ServiceImpl<EmpMapper, Emp> implements EmpSer
         pageBean.setTotalNums((int) p.getTotal());
         return pageBean;
     }
+    @Override
+    public List<Emp> getByc(Emp emp) {
+
+        List<Emp> emps = empMapper.seleByCon(emp);
+
+        return emps;
+    }
+
 
     @Override
     public void up(Emp emp) {
