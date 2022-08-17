@@ -39,11 +39,11 @@ public class DeptControl {
 
     }
     @PostMapping("/add")
-    public ResponseEntility<String> add(@RequestBody @Validated(AddGroup.class)  Dept dept,@RequestHeader String jwt) {
+    public ResponseEntility add(@RequestBody @Validated(AddGroup.class)  Dept dept,@RequestHeader String jwt) {
         System.out.println(jwt);
         if(jwtutil.verifyJWT(jwt)){
             deptService.save(dept);
-            return ResponseFactory.getSuResponseEntility("添加的部门的id为"+dept.getId());
+            return ResponseFactory.getSuResponseEntility(dept.getId());
         }else {
             return ResponseFactory.getDeResponseEntility("令牌无效");
         }
@@ -60,7 +60,23 @@ public class DeptControl {
     public String test(Dept dept) {
         return "测试成功";
     }
+    @PostMapping("getbyid/{id}")
+    public ResponseEntility get(@PathVariable("id")  int id,@RequestHeader String jwt) {
+        if (jwtutil.verifyJWT(jwt)) {
+            return ResponseFactory.getSuResponseEntility(deptService.getById(id));
+        } else {
+            return ResponseFactory.getDeResponseEntility("令牌无效");
+        }
 
 
-
+    }
+    @PostMapping("dele")
+    public ResponseEntility dele(@RequestBody Dept dept,@RequestHeader String jwt){
+        if(jwtutil.verifyJWT(jwt)) {
+            deptService.removeById(dept);
+            return ResponseFactory.getSuResponseEntility("删除成功");
+        }else{
+            return ResponseFactory.getDeResponseEntility("令牌无效");
+        }
+    }
 }

@@ -6,7 +6,9 @@ spring:
     password: 1234s4321
     application:
       name: m
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  #时间戳统一转换为指定格式
+    time-zone: GMT+8
     devtools:
       restart:
         enabled: true  #设置开启热部署
@@ -34,7 +36,7 @@ logging:
   level:
     com.mySpring: debug
 m:
-  picture: C://Users/ASUS/Desktop/新项目/
+  picture: D:\vuetest\myvue\public\imgs\
 jwt:
   secret: 2571453646@
   time: 30

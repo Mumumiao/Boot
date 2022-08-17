@@ -5,5 +5,5 @@ import com.mySpring.boot.Dept;
 
 
 public interface DeptService extends IService<Dept> {
-
+    public Dept getById(int id);
 }

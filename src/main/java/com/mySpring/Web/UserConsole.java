@@ -25,7 +25,7 @@ public class UserConsole {
     private UserSeverce userSeverce;
     @PostMapping("/add")
     public ResponseEntility<String> add(@RequestBody @Validated(AddGroup.class) User user){
-     /*   if(result.hasFieldErrors()){
+     /*   if(result.hasFiLeldErrors()){
             Map<String,String> map=new HashMap<>();
             List<FieldError> errors = result.getFieldErrors();
             errors.forEach(e -> {

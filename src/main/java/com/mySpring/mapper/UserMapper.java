@@ -26,7 +26,7 @@ public interface UserMapper extends BaseMapper<UserMapper> {
      User getById(int id);*/
     @Select("select * from user where id=#{id}")
     @Results({
-            @Result(column = "ud", property = "id"),
+            @Result(column = "id", property = "id"),
             @Result(column = "account", property = "account"),
             @Result(column = "password", property = "password"),
             @Result(column = "role", property = "role", one = @One(select = "com.mySpring.mapper.RoleMapper.getById", fetchType = FetchType.LAZY)),

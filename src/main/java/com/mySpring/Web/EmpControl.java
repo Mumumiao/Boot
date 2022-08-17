@@ -26,10 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Getter
@@ -48,6 +45,9 @@ public class EmpControl {
 
     @PostMapping("/add")
     public ResponseEntility add(@RequestBody @Validated(AddGroup.class) Emp emp) {
+        if(emp.getEntry_date().toString().length()>10){
+            emp.setEntry_date(emp.getEntry_date().toString().substring(0, 10));
+        }
         Dept dept = new Dept();
         dept.setId(emp.getDt());
         emp.setDept(dept);
@@ -66,6 +66,7 @@ public class EmpControl {
 
     @PostMapping("/sele")
     public ResponseEntility sele(@RequestBody @Valid Empvo empvo) {
+
         Dept dept = new Dept();
         dept.setId(empvo.getDt());
         empvo.getEmp().setDept(dept);
@@ -88,7 +89,7 @@ public class EmpControl {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ResponseFactory.getSuResponseEntility("成功上传图片");
+        return ResponseFactory.getSuResponseEntility(file.getOriginalFilename());
     }
 
     @PostMapping("page")
@@ -168,9 +169,25 @@ public class EmpControl {
         return ResponseFactory.getSuResponseEntility(depts);
 
     }
+
     @PostMapping("list")
     public ResponseEntility list(Emp emp) {
 
         return ResponseFactory.getSuResponseEntility(empService.getByc(emp));
+    }
+    @PostMapping("/picf")
+    public ResponseEntility picf(MultipartFile file) {
+        String fileName = UUID.randomUUID().toString()+".jpg";
+        String path = picture + fileName;
+        try {
+            if (file != null) {
+                file.transferTo(new File(path));
+            } else {
+                return ResponseFactory.getDeResponseEntility("失败上传");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseFactory.getSuResponseEntility(fileName);
     }
 }

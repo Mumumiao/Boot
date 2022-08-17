@@ -17,4 +17,6 @@ public class Userright {
     private  String status;
     private List<Urc> urc;
     private String url;
+    private List<Userright> userrights;
+
 }

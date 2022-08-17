@@ -12,4 +12,8 @@ import org.springframework.stereotype.Service;
 public class DeptServiceImp extends ServiceImpl<DeptMapper, Dept> implements DeptService {
     @Autowired
     private DeptMapper oaDeptMapper;
+    @Override
+    public Dept getById(int id){
+       return oaDeptMapper.seleById(id);
+    }
 }

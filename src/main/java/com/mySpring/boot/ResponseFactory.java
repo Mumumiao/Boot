@@ -9,4 +9,8 @@ public class ResponseFactory {
         ResponseEntility<T> resp=new ResponseEntility<>(ReCode.not_found,"编译失败",t);
         return  resp;
     }
+    public static <T> ResponseEntility<T> getInResponseEntility(T t){
+        ResponseEntility<T> resp=new ResponseEntility<>(ReCode.INVALIDTOKEN,"验证不过",t);
+        return  resp;
+    }
 }
